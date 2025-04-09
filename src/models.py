@@ -4,6 +4,30 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 db = SQLAlchemy()
 
+[
+  {
+    "email": "email",
+    "id": 1
+  },
+  {
+    "email": "gmail",
+    "id": 6
+  },
+  {
+    "email": "gcmail",
+    "id": 9
+  },
+  {
+    "email": "gcmddail",
+    "id": 10
+  },
+  {
+    "email": "dfsfsf@example.com",
+    "id": 11
+  }
+]
+
+
 class User(db.Model):
     __tablename__ = "user"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -79,8 +103,8 @@ class Fav_char(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "user.id": self.user.email,
-            "character": self.character.name,
+            "user": self.user.email,
+            "character": self.character.eye_color
 
             # do not serialize the password, its a security breach
         }
