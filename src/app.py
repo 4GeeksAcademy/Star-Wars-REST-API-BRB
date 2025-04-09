@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Character, Planet, 
+from models import db, User, Character, Planet, Fav_char
 #from models import Person
 
 app = Flask(__name__)
@@ -66,9 +66,9 @@ def post_user():
     data = request.json
     newUser = User(
         # id = data["id"],
-        email = data["email3"],
-        password = data["password3"],
-        is_active = data.get("is_active3")
+        email = data["email"],
+        password = data["password"],
+        is_active = data.get("is_active")
     )
 
     db.session.add(newUser)
@@ -83,7 +83,7 @@ def post_user():
 def post_character():
     data = request.json
     new_character = Character(
-        id= data["id"],
+        # id= data["id"],
         name= data['name'],
         age = data['age'],
         hair_color = data['hair_color'],
@@ -96,6 +96,40 @@ def post_character():
     db.session.commit()
 
     return jsonify(new_character.serialize()), 200
+
+
+
+
+@app.route('/fav_char', methods=['POST'])
+def post_favchar():
+    data = request.json
+    new_favchar = Fav_char(
+        # id = data["id"],
+        user_id = data["user_id"],
+        character_id = data["character_id"]
+        
+    )
+
+    db.session.add(new_favchar)
+    db.session.commit()
+
+    return jsonify(new_favchar.serialize()), 200
+
+
+
+
+@app.route('/fav_char', methods=['GET'])
+def get_favchar():
+   
+    allFavs = Fav_char.query.all()
+    fav_list = [Fav_char.serialize() for Fav_char in allFavs]
+
+
+    return jsonify(fav_list), 200
+
+
+
+
 
 # @app.route('/character', methods=['POST'])
 # def post_character():

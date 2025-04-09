@@ -22,7 +22,7 @@ class User(db.Model):
 
 class Character (db.Model):
 
-    __tablename__ = "character.id"
+    __tablename__ = "character"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     age: Mapped[str] = mapped_column(String(5), nullable=True)
@@ -72,15 +72,13 @@ class Fav_char(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     character_id: Mapped[str] = mapped_column(ForeignKey("character.id"))
-    user: Mapped["User"] = relationship()
-    character: Mapped["Character"] = relationship()
+    user: Mapped["User"] = relationship("User")
+    character: Mapped["Character"] = relationship("Character")
   
-
 
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
             "user.id": self.user.email,
             "character": self.character.name,
 
