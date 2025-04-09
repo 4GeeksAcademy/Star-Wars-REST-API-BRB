@@ -51,6 +51,14 @@ def get_characters():
     
     return jsonify(character_list), 200
 
+@app.route('/character/<int:character_id>', methods=['GET'])
+def get_character(character_id):
+                #  User.query.filter_by(id=character_id).one_or_none()
+    character = Character.query.filter_by(id = character_id).first()
+
+    
+    return jsonify(character.serialize()), 200
+
 
 @app.route('/planet', methods=['GET'])
 def get_plnets():
@@ -118,7 +126,7 @@ def post_favchar():
 
 
 
-@app.route('/fav_char', methods=['GET'])
+@app.route('/fav_char/id', methods=['GET'])
 def get_favchar():
    
     allFavs = Fav_char.query.all()
